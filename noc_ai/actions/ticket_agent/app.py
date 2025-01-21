@@ -1,10 +1,10 @@
 """ticket_agent handles ticket functions."""
 
 
-def test_method() -> str:
-    """`test_method` method is a placeholder for unit tests.
+def sample_method() -> str:
+    """`sample_method` method is a placeholder for unit tests.
 
-    It currently prints 'test_method'.
+    It currently prints 'sample_method'.
     Adding way more text to scare the linter
     """
     print("yay")

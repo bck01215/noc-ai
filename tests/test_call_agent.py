@@ -1,6 +1,6 @@
 """Tests call_agent functions."""
 
-from noc_ai.call_agent.app import hello_bob
+from noc_ai.actions.call_agent.app import hello_bob
 
 
 class TestCallAgent:

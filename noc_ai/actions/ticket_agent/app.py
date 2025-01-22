@@ -7,5 +7,4 @@ def sample_method() -> str:
     It currently prints 'sample_method'.
     Adding way more text to scare the linter
     """
-    print("yay")
     return "I ticketed a user"

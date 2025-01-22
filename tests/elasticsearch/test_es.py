@@ -14,6 +14,7 @@ def elastic_agent() -> ElasticStackAgent:
     )
 
 
+@pytest.mark.skip(reason="Waiting for ES testing")
 def test_search_alert(elastic_agent: ElasticStackAgent) -> None:
     data = elastic_agent.search_alert(
         index_pattern="sn-imported",

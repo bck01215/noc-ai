@@ -7,5 +7,4 @@ def hello_bob() -> str:
     It currently returns 'test_method'.
     Adding way more text to scare the linter
     """
-    print("yay")
     return "I called a user"

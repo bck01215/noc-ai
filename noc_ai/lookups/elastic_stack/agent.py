@@ -37,23 +37,19 @@ class ElasticStackAgent:
         self, index_pattern: str, alert_data: str
     ) -> ObjectApiResponse[Any]:
         default_query = {
+            "size": 10,
             "query": {
-                "bool": {
-                    "must": {
-                        "multi_match": {
-                            "fields": [
-                                "short_description^4",
-                                "description^2",
-                                "comments",
-                                "work_notes",
-                            ],
-                            "query": alert_data,
-                            "operator": "and",
-                            "type": "phrase_prefix",
-                        }
-                    },
+                "multi_match": {
+                    "fields": [
+                        "short_description^4",
+                        "description^2",
+                        "comments",
+                        "work_notes",
+                    ],
+                    "query": alert_data,
+                    "type": "cross_fields",
                 }
-            }
+            },
         }
         data = self.client.search(
             index=index_pattern,

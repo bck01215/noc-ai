@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "elasticsearch>=8.17.0",
     "langchain>=0.3.15",
     "langchain-openai>=0.3.1",
     "pydantic>=2.10.5",

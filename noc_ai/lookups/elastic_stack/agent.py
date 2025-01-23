@@ -5,7 +5,14 @@ from typing import Any
 
 from elastic_transport import ObjectApiResponse
 from elasticsearch import Elasticsearch
-from pydantic import SecretStr
+from pydantic import BaseModel, SecretStr
+
+
+class TicketData(BaseModel):
+    _index: str
+    _id: str
+    _score: float
+    _source: dict[str, Any]
 
 
 class ElasticStackAgent:
@@ -45,10 +52,12 @@ services.
             ssl_show_warn=False,
         )
 
-    def get_best_result(self, data: ObjectApiResponse[Any]) -> dict:
+    def get_best_result(
+        self, data: ObjectApiResponse[Any]
+    ) -> TicketData | None:
         items = data.get("hits", {}).get("hits", [])
         if len(items) == 0:
-            return {}
+            return None
         return items[0]
 
     def search_alert(

@@ -12,12 +12,24 @@ class ElasticStackAgent:
     """
     Initialize an ElasticStackAgent.
 
-    Args:
-    - username (str): username for elastic stack agent
-    - password (SecretStr): password for elastic stack agent
+    Parameters:
+        :param SecretStr api_key: API key to authenticate with Elastic Stack
+            services.
+            If not provided and not set as an environment variable,
+            raises a ValueError.
+        :param str host: Elasticsearch cluster URL. If not provided and not set
+            as an environment variable, raises a ValueError.
+
+    Environment Variables:
+
+        - ELASTICSEARCH_API_KEY: API key to authenticate with Elastic Stack \
+services.
+        - ELASTICSEARCH_URL: Elasticsearch cluster URL.
     """
 
-    def __init__(self, api_key: SecretStr, host: str) -> None:
+    def __init__(
+        self, api_key: SecretStr | None = None, host: str = ""
+    ) -> None:
         if not api_key:
             api_key = SecretStr(os.getenv("ELASTICSEARCH_API_KEY", ""))
             if not api_key:
@@ -32,6 +44,12 @@ class ElasticStackAgent:
             verify_certs=False,
             ssl_show_warn=False,
         )
+
+    def get_best_result(self, data: ObjectApiResponse[Any]) -> dict:
+        items = data.get("hits", {}).get("hits", [])
+        if len(items) == 0:
+            return {}
+        return items[0]
 
     def search_alert(
         self, index_pattern: str, alert_data: str

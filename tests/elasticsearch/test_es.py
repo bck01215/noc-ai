@@ -14,10 +14,12 @@ def elastic_agent() -> ElasticStackAgent:
     )
 
 
-@pytest.mark.skip(reason="Waiting for ES testing")
+@pytest.mark.skipif(
+    os.getenv("ELASTICSEARCH_API_KEY") is None, reason="no api key"
+)
 def test_search_alert(elastic_agent: ElasticStackAgent) -> None:
     data = elastic_agent.search_alert(
         index_pattern="sn-imported",
         alert_data="CPU use is 99 percent on getvisprod02.liberty.edu:9100",
     )
-    print(data)
+    assert data["hits"]["total"]["value"] > 0

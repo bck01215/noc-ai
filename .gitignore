@@ -3,6 +3,7 @@
 *.py[oc]
 build/
 dist/
+temp/
 wheels/
 *.egg-info
 

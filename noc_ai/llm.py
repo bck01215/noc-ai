@@ -36,6 +36,20 @@ class NocAiLlm:
             self.es = ElasticStackAgent()
         except ValueError as e:
             raise LLMError("Failed to initialize ElasticStackAgent") from e
+        self.tools = [self.es.search_alert]
 
-    def validate(self) -> bool:
-        return True
+    def determine_alert_action(self, alert_data: str) -> dict:
+        """
+        Determine the action to take based on the alert data.
+
+        Args:
+            alert_data (str): The alert data to process.
+
+        Returns:
+            str: The action to take.
+        """
+        data = self.es.search_alert(
+            index_pattern="sn-imported", alert_data=alert_data
+        )
+        result = self.es.get_best_result(data)
+        return result

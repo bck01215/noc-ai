@@ -12,7 +12,7 @@ class ElasticStackAgent:
     """
     Initialize an ElasticStackAgent.
 
-    Parameters:
+    **Parameters**:
         :param SecretStr api_key: API key to authenticate with Elastic Stack
             services.
             If not provided and not set as an environment variable,
@@ -20,7 +20,7 @@ class ElasticStackAgent:
         :param str host: Elasticsearch cluster URL. If not provided and not set
             as an environment variable, raises a ValueError.
 
-    Environment Variables:
+    **Environment Variables**:
 
         - ELASTICSEARCH_API_KEY: API key to authenticate with Elastic Stack \
 services.

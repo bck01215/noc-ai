@@ -5,10 +5,15 @@ import os
 from typing import Annotated, Any, TypedDict
 
 from elastic_transport import ObjectApiResponse
+from langchain.agents import Tool
 from langchain_openai import ChatOpenAI
+from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, START, StateGraph, add_messages
+from langgraph.prebuilt import create_react_agent
 from pydantic import SecretStr
 
+from noc_ai.actions.calls.app import call_user
+from noc_ai.actions.tickets.app import create_ticket
 from noc_ai.lookups.elastic_stack.agent import ElasticStackAgent, TicketData
 
 
@@ -43,8 +48,23 @@ class NocAiLlm:
             api_key = SecretStr(os.getenv("OPENAI_API_KEY", ""))
             if not api_key:
                 raise ValueError("OPENAI_API_KEY is not set")
-        self.tools = []
-        self.llm = ChatOpenAI(api_key=api_key, model="gpt-4o-mini")
+        self.tools = [
+            Tool(
+                name="CallUser",
+                func=call_user,
+                description="Call user and returns true if answered",
+            ),
+            Tool(
+                name="CreateTicket",
+                func=create_ticket,
+                description="Call agent and returns true if answered",
+            ),
+        ]
+        self.llm = ChatOpenAI(
+            api_key=api_key, model="gpt-4o-mini", temperature=0.2
+        )
+        self.checkpointer = MemorySaver()
+        self.agent = create_react_agent(model=self.llm, tools=self.tools)
         try:
             self.es = ElasticStackAgent()
         except ValueError as e:

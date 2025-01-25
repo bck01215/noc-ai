@@ -1,10 +1,9 @@
 """call_agent handles call functions."""
 
 
-def hello_bob() -> str:
-    """test_method method is a placeholder for unit tests.
+def call_user() -> bool:
+    """call_user method is a placeholder for unit tests.
 
-    It currently returns 'test_method'.
-    Adding way more text to scare the linter
+    It returns True as if the user was called and answered.
     """
-    return "I called a user"
+    return True

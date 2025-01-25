@@ -1,10 +1,10 @@
 """ticket_agent handles ticket functions."""
 
 
-def sample_method() -> str:
-    """`sample_method` method is a placeholder for unit tests.
+def create_ticket() -> bool:
+    """`create_ticket` method is a placeholder for unit tests.
 
-    It currently prints 'sample_method'.
+    It currently prints 'create_ticket'.
     Adding way more text to scare the linter
     """
-    return "I ticketed a user"
+    return True

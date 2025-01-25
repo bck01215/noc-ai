@@ -1,4 +1,4 @@
-from noc_ai.actions.ticket_agent.app import sample_method
+from noc_ai.actions.tickets.app import sample_method
 
 
 def test_sample_method() -> None:

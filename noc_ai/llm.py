@@ -43,6 +43,7 @@ class NocAiLlm:
             api_key = SecretStr(os.getenv("OPENAI_API_KEY", ""))
             if not api_key:
                 raise ValueError("OPENAI_API_KEY is not set")
+        self.tools = []
         self.llm = ChatOpenAI(api_key=api_key, model="gpt-4o-mini")
         try:
             self.es = ElasticStackAgent()
